@@ -113,9 +113,9 @@ from errornumbers import ErrorNumber as EN
 
 my_error_number = EN(5, 0.1)
 
-from errornumbers import ErrorNumberFunctions.sin as ensin
+from errornumbers import ErrorNumberFunctions as Functions
 
-print( ensin(my_error_number) )
+print( Functions.cos(my_error_number) )
 ```
 
 
@@ -155,4 +155,4 @@ print(n)
 ## Contributing / Opmerkingen
 
 English version will follow soon
-Not every method has been tested 
+Not every method has been tested
