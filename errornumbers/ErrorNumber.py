@@ -16,29 +16,38 @@ class ErrorNumber:
     def plus(self, other):
         return ErrorNumber(self.value + other.value, self.absolute_error + other.absolute_error)
 
-    def plus(self, constant):
+    def plusc(self, constant):
         return ErrorNumber(self.value + constant, self.absolute_error)
 
     def minus(self, other):
         return ErrorNumber(self.value - other.value, self.absolute_error + other.absolute_error)
 
-    def minus(self, constant):
+    def minusc(self, constant):
         return ErrorNumber(self.value - constant, self.absolute_error)
 
     def times(self, other):
         return ErrorNumber(self.value * other.value, self.relative_error + other.relative_error, relative=True)
 
-    def times(self, constant):
+    def timesc(self, constant):
         return ErrorNumber(self.value * constant, self.relative_error, relative=True)
 
     def divided_by(self, other):
         return ErrorNumber(self.value / other.value, self.relative_error + other.relative_error, relative=True)
 
-    def divided_by(self, constant):
+    def divided_byc(self, constant):
         return ErrorNumber(self.value / constant, self.relative_error, relative=True)
 
     def inverse(self):
         return ErrorNumber((1 / self.value), self.relative_error, relative=True)
+
+    def squared(self):
+        return self.times(self)
+
+    def cubed(self):
+        return self.times(self).times(self)
+
+    def to_the(self, constant):
+        return ErrorNumber((self.value)**constant, self.relative_error, relative=True)
 
     def __str__(self):
         return "[value={}; error={}; relative_error={}]".format(self.value, self.absolute_error, self.relative_error)
