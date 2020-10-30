@@ -5,7 +5,7 @@
 ## Installatie
 
 - Installatie via pip (eenvoudigste manier)
-  - Open terminal (Windows-toets + R; typ "cmd" in het tekstvak en druk op enter)
+  - Open terminal (Kan via Pycharm (zie onderaan) of manueel via de zoekbalk in windows).
   - gebruik het command `pip install errornumbers`.
 - Manuele installatie
   - Download ErrorNumber.py en ErrorNumberFunctions.py van deze github repository.
@@ -66,8 +66,6 @@ print(new_error_number)
 ```
 Merk op dat omdat je rekent met objecten en niet met floats of ints, dat je geen + en - kan gebruiken maar dat je functies moet gebruiken.
 Hieronder zie je een lijstje met functies die je kan gebruiken met ErrorNumbers:
-
-(Bij de voorbeelden is `A = ErrorNumber(2, 0.1) en B = ErrorNumber(3, 0.1)`)
 
 Functie | Beschrijving
 --- | ---
@@ -153,6 +151,5 @@ print(n)
 
 
 ## Contributing / Opmerkingen
-
-English version will follow soon
-Not every method has been tested
+- English version will follow soon
+- Not every method has been tested
