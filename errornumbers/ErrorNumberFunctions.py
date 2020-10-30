@@ -1,4 +1,4 @@
-from ErrorNumber import ErrorNumber
+from errornumbers import ErrorNumber
 import math
 
 def sin(e_n):
