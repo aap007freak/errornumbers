@@ -8,7 +8,7 @@
   - Open terminal (Kan via Pycharm (zie onderaan) of manueel via de zoekbalk in windows).
   - gebruik het command `pip install errornumbers`.
 - Manuele installatie
-  - Download ErrorNumber.py en ErrorNumberFunctions.py van deze github repository.
+  - Download [ErrorNumber.py](https://github.com/aap007freak/errornumbers/blob/master/errornumbers/ErrorNumber.py) en [ErrorNumberFunctions.py](https://github.com/aap007freak/errornumbers/blob/master/errornumbers/ErrorNumberFunctions.py) van deze github repository.
   - Zet ze in dezelfde map als je python scripts; je kan de bestanden nu gebruiken.
 
 
