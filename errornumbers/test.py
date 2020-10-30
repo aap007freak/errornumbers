@@ -1,19 +1,17 @@
-from errornumbers import ErrorNumber as EN
+from errornumbers import ErrorNumber
 from errornumbers.ErrorNumberFunctions import sin
 import math
 
-#in degrees
-alpha = EN(60, 0.5)
-delta = EN(40, 1.2)
+m_1 = ErrorNumber(49.91, 0.05)
+m_2 = ErrorNumber(55.42, 0.06)
+x_1 = ErrorNumber(9.7, 0.005)
+x_2 = ErrorNumber(11.7, 0.005)
+m_kg = m_2.minus(m_1).divided_byc(1000)
+x_meter = x_2.minus(x_1).divided_byc(100)
 
-radian_alpha = alpha.timesc(math.pi).divided_byc(180)
-radian_delta = delta.timesc(math.pi).divided_byc(180)
+k = m_kg.timesc(9.81).divided_by(x_meter)
 
+print(k)
 
-numerator = sin( radian_alpha.plus(radian_delta).divided_byc(2))
-denominator = sin(radian_alpha.divided_byc(2))
-
-n = numerator.divided_by(denominator)
-
-n_degrees = n.timesc(180).divided_byc(math.pi)
-print(n)
+one = ErrorNumber(13.31, 0.02)
+print(one.divided_byc(20).inverse())
