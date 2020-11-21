@@ -4,7 +4,7 @@ class ErrorNumber:
     relative_error = 0
 
     def __init__(self, value, error, relative=False):
-        if relative == True:
+        if relative:
             self.value = value
             self.relative_error = error
             self.absolute_error = self.relative_error * self.value;
