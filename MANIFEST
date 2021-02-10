@@ -3,3 +3,4 @@ __init__.py
 errornumbers.py
 setup.cfg
 setup.py
+test.py
