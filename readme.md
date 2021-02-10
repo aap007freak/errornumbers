@@ -1,11 +1,9 @@
 # Error Numbers library for python
 
-(English version not available atm)
-
 ## Installatie
 
-- Installatie via pip (eenvoudigste manier)
-  - Open terminal (Kan via Pycharm (zie onderaan) of manueel via de zoekbalk in windows).
+- Installatie via [pip](https://phoenixnap.com/kb/install-pip-windows) (eenvoudigste manier)
+  - Open een terminal. (Kan via Pycharm (Alt + F12) of manueel via de zoekbalk in windows).
   - gebruik het command `pip install errornumbers`.
 - Manuele installatie
   - Download [ErrorNumber.py](https://github.com/aap007freak/errornumbers/blob/master/errornumbers/ErrorNumber.py) en [ErrorNumberFunctions.py](https://github.com/aap007freak/errornumbers/blob/master/errornumbers/ErrorNumberFunctions.py) van deze github repository.
@@ -30,7 +28,9 @@ my_error_number = ErrorNumber(waarde, absolute_fout)
 my_error_number = ErrorNumber(waarde, relatieve_fout, relative=True)
 ```
 
-Een ErrorNumber object heeft drie variabelen; value, absolute_error en relative_error. Je kan ze op onderstaande manier opvragen.
+
+Een ErrorNumber object heeft drie variabelen; value, absolute_error en relative_error. De waarde en fout van een ErrorNumber zijn steeds reëel.
+ Je kan ze op onderstaande manier opvragen.
 
 ```python
 #Maak een ErrorNumber
@@ -57,49 +57,50 @@ ErrorNumbers zijn **immutable**. Dit betekent dat je de waarde van een ErrorNumb
 #Maak een ErrorNumber
 original_error_number = ErrorNumber(5, 0.1)
 #plus 5
-new_error_number = original_error_number.plusc(5)
+new_error_number = original_error_number + 5
 
 print(original_error_number)
 #prints [value=5; error=0.1; relative_error=0.02]
 print(new_error_number)
 #prints [value=10; error=0.1; relative_error=0.02]
 ```
-Merk op dat omdat je rekent met objecten en niet met floats of ints, dat je geen + en - kan gebruiken maar dat je functies moet gebruiken.
-Hieronder zie je een lijstje met functies die je kan gebruiken met ErrorNumbers:
+Als je een bestaande operatie (zoals +, -, ... ) op twee ErrorNumbers uitvoert, dan worden de fouten automatisch meegepropageerd. 
+Als er een ander type wordt doorgegeven, dan wordt de variabele als een constante bescbouwd (zonder fout dus)  
 
-Functie | Beschrijving
---- | ---
-`.plus(other_errornumber)` | telt een ErrorNumber bij een andere ErrorNumber op.  
-`.plusc(constant)` | telt bij een Errornumber een constante op
-`.minus(other_errornumber)` | trekt een ErrorNumber van een andere ErrorNumber af
-`.minusc(constant)` | trekt een constante van een ErrorNumber af
-`.times(other_errornumber)` | vermenigvuldigt een ErrorNumber met een andere ErrorNumber
-`.timesc(constant)` | vermenigvuldigt een ErrorNumber met een constante
-`.divided_by(other_errornumber)` | deelt een ErrorNumber door een andere ErrorNumber
-`.divided_byc(constant)` | deelt een ErrorNumber door een constante
-`.inverse()` | inverteert een ErrorNumber
-`.squared()` | geeft het kwadraat van een ErrorNumber
-`.cubed()` | geeft de derde macht van een ErrorNumber
-`.to_the(constant)` | geeft de n-de macht van een ErrorNumber
+Functie | Afkorting | Beschrijving
+--- | --- | ---
+`.plus(other_errornumber)` | + | telt een ErrorNumber bij een andere ErrorNumber op.  
+`.plusc(constant)` | + | telt bij een Errornumber een constante op
+`.minus(other_errornumber)` | - | trekt een ErrorNumber van een andere ErrorNumber af
+`.minusc(constant)` | - | trekt een constante van een ErrorNumber af
+`.times(other_errornumber)` | * | vermenigvuldigt een ErrorNumber met een andere ErrorNumber
+`.timesc(constant)` | * | vermenigvuldigt een ErrorNumber met een constante
+`.divided_by(other_errornumber)` | / | deelt een ErrorNumber door een andere ErrorNumber
+`.divided_byc(constant)` | / | deelt een ErrorNumber door een constante
+`.inverse()` |  | inverteert een ErrorNumber
+`.squared()` |  | geeft het kwadraat van een ErrorNumber
+`.cubed()` |  | geeft de derde macht van een ErrorNumber
+`.to_the(constant)` | ** | geeft de n-de macht van een ErrorNumber
 
 
-Om moeilijkere bewerkingen met ErrorNumbers te doen, heb je de file ErrorNumberFunctions nodig. In het begin van je file moet je opnieuw een import statement gebruiken:
+Goniometrische en andere bewerkingen kunnen ook gebruikt wordt, mits ze eerst geïmporteerd worden
 
 ```python
-from errornumbers import ErrorNumber, ErrorNumberFunctions
+from errornumbers import sin, exp
 ```
 
 Het ErrorNumberFunctions bestand heeft een paar extra functies zoals sinus, tangens... Hieronder een lijst:
 
 Functie | Beschrijving
 --- | ---
-`ErrorNumberFunctions.sin(errornumber)` |neemt de sinus van een ErrorNumber.
-`ErrorNumberFunctions.cos(errornumber)` | neemt de cosinus van een ErrorNumber
-`ErrorNumberFunctions.tan(errornumber)` | neemt de tangens van een ErrorNumber
-`ErrorNumberFunctions.cot(errornumber)` | neemt de cotangens van een ErrorNumber
+`ErrorNumberFunctions.sin(errornumber)` |neemt de sinus van een ErrorNumber*.
+`ErrorNumberFunctions.cos(errornumber)` | neemt de cosinus van een ErrorNumber*
+`ErrorNumberFunctions.tan(errornumber)` | neemt de tangens van een ErrorNumber*
+`ErrorNumberFunctions.cot(errornumber)` | neemt de cotangens van een ErrorNumber*
 `ErrorNumberFunctions.exp(errornumber)` | verheft e tot errornumber
 `ErrorNumberFunctions.exp(errornumber, base)` | verheft een base tot het errornumber
 
+*** *goniometrische formules verwachten steeds een argument in radialen*
 ## Over het import statement
 
 Python laat het toe om import statements een andere naam te geven, dit om je code te verkorten.
@@ -111,12 +112,19 @@ from errornumbers import ErrorNumber as EN
 
 my_error_number = EN(5, 0.1)
 
-from errornumbers import ErrorNumberFunctions as Functions
+from errornumbers import sin as s
 
-print( Functions.cos(my_error_number) )
+print( s(my_error_number) )
 ```
 
+Ook kan je heel de package in 1 keer importen met het commando `from errornumbers import *`.
+Dan kan je alle functies en het ErrorNumber object direct in je scripts gebruiken
 
+```python
+from errornumbers import *
+
+my_error_number = ErrorNumber(0.1, 0.1, relative=True)
+```
 
 ## Voorbeeld
 
@@ -128,23 +136,23 @@ We kunnen aan de hand van de tophoek ![\alpha](https://latex.codecogs.com/svg.la
 
 ```Python
 from errornumbers import ErrorNumber as EN
-from errornumbers import ErrorNumberFunctions as Functions
+from errornumbers import sin
 import math
 
 #in degrees
 alpha = EN(60, 0.5)
 delta = EN(40, 1.2)
 
-radian_alpha = alpha.timesc(math.pi).divided_byc(180)
-radian_delta = delta.timesc(math.pi).divided_byc(180)
+radian_alpha = alpha * math.pi / 180
+radian_delta = delta * math.pi / 180
 
 
-numerator = Functions.sin( radian_alpha.plus(radian_delta).divided_byc(2))
-denominator = Functions.sin(radian_alpha.divided_byc(2))
+numerator = sin( (radian_alpha + radian_delta) / 2)
+denominator = sin(radian_alpha/ 2)
 
-n = numerator.divided_by(denominator)
+n = numerator / denominator
 
-n_degrees = n.timesc(180).divided_byc(math.pi)
+n_degrees = n * 180 / math.pi
 print(n)
 
 ```

@@ -1,1 +1,1 @@
-errornumbers\test.py
+MANIFEST
