@@ -2,8 +2,22 @@ import math
 
 
 class ErrorNumber:
+    """
+    A ErrorNumber object represents a *real* number with some real error
+
+    Attributes *value*, *absolute_error*, and *relative error* are all floats.
+    """
 
     def __init__(self, value, error, relative=False):
+        """
+        Creates a ErrorNumber object
+
+        :param value: (int or float)
+        :param error: (int or float)
+        :param relative: Whether to interpret the error given in the parameter above as a relative or absolute error.
+            (bool) (default value: False -> (absolute error))
+        """
+        assert error > 0, "Error must be positive!"
         if relative:
             self.value = float(value)
             self.relative_error = float(error)
@@ -13,43 +27,145 @@ class ErrorNumber:
             self.absolute_error = float(error)
             self.relative_error = float(error) / float(value)
 
+    #overloaders for standard python methods can be found below these methods
+
     def plus(self, other):
+        """
+        Adds two ErrorNumber objects.
+        Error is calculated by adding absolute error values.
+        Please use "+" instead of this function wherever possible.
+
+        :param other: (ErrorNumber)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value + other.value, self.absolute_error + other.absolute_error)
 
     def plusc(self, constant):
+        """
+        Adds a constant to an Errornumber
+        Error doesn't change.
+        Please use "+" instead of this function wherever possible.
+
+
+        :param constant: (int or float)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value + constant, self.absolute_error)
 
     def minus(self, other):
+        """
+        Subtracts a ErrorNumber obect from another.
+        Error is calculated by adding absolute error values.
+        Please use "-" instead of this function wherever possible.
+
+        :param other: (ErrorNumber)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value - other.value, self.absolute_error + other.absolute_error)
 
     def minusc(self, constant):
+        """
+        Subtracts a constant from a ErrorNumber object.
+        Error doesn't change.
+        Please use "-" instead of this function wherever possible.
+
+        :param constant: (int or float)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value - constant, self.absolute_error)
 
     def times(self, other):
+        """
+        Multiplies ErrorNumber objects.
+        Error is calculated by adding relative errors.
+        Please use "*" instead of this function wherever possible.
+
+        :param other: (ErrorNumber)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value * other.value, self.relative_error + other.relative_error, relative=True)
 
     def timesc(self, constant):
+        """
+        Multiplies a ErrorNumber by a constant.
+        Error doesn't change.
+        Please use "*" instead of this function wherever possible.
+
+        :param constant: (float or int)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value * constant, self.relative_error, relative=True)
 
     def divided_by(self, other):
+        """
+        Divides a ErrorNumber by another ErrorNumber.
+        Error is calculated by adding relative errors.
+        Please use "/" instead of this function wherever possible.
+        (Dividing by 0 doesn't work, even if the error range implies otherwise).
+
+        :param other: (ErrorNumber)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value / other.value, self.relative_error + other.relative_error, relative=True)
 
     def divided_byc(self, constant):
+        """
+        Divides a ErrorNumber by a constant.
+        Error doesn't change.
+        Please use "/" instead of this function wherever possible.
+        (Dividing by 0 doesn't work, even if the error range implies otherwise).
+
+        :param constant: (float or int)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber(self.value / constant, self.relative_error, relative=True)
 
     def inverse(self):
+        """
+        Returns the inverse of a ErrorNumber object.
+        Relative Error doesn't change.
+        "1 / x" works as well.
+
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return ErrorNumber((1 / self.value), self.relative_error, relative=True)
 
     def squared(self):
+        """
+        Returns the square of a ErrorNumber object.
+        Relative Error doubles.
+
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return self.times(self)
 
     def cubed(self):
+        """
+        Returns the cube of a ErrorNumber object.
+        Relative Error triples.
+
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return self.times(self).times(self)
 
     def to_the(self, constant):
-        return ErrorNumber(self.value ** constant, self.relative_error * constant, relative=True)
+        """
+        Exponentiates a ErrorNumber object to a certain constant.
+        Relative Error is given by | original_relative_error * constant |
+
+        :param constant: (float or int)
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
+        return ErrorNumber(self.value ** constant, math.fabs(self.relative_error * constant), relative=True)
 
     def sqrt(self):
+        """
+        Take the square root of a ErrorNumber.
+        Relative Error halves.
+        As ErrorNumbers represent real numbers, avoid taking square roots of negative numbers!
+
+        :return: (ErrorNumber) **Doesn't change original objects**
+        """
         return self.to_the(1 / 2)
 
     def __add__(self, other):
@@ -59,6 +175,9 @@ class ErrorNumber:
             return self.plusc(other)
         else:
             raise TypeError("Type must be either ErrorNumber, float or int")
+
+    def __radd__(self, other):
+        return self.__add__(other)
 
     def __sub__(self, other):
         if isinstance(other, ErrorNumber):
@@ -91,15 +210,14 @@ class ErrorNumber:
         else:
             raise TypeError("Type must be either ErrorNumber, float or int")
 
-    def out(self):
-        # rank of error
-        rank = math.floor(math.log(self.absolute_error, 10))
-        int_error = self.absolute_error / 10 ** rank
-        ten_error = math.ceil(int_error)
-        rounded_up_error = ten_error * (10 ** rank)
-        rounded_value = round(self.value, -1 * rank)
-        name = -1 * rank
-        return '[{} +- {}]'.format(rounded_value, rounded_up_error)
+    def __rtruediv__(self, other):
+        if isinstance(other, ErrorNumber):
+            return other.times(self.inverse())
+        elif isinstance(other, (float, int)):
+            inv = self.inverse()
+            return ErrorNumber(other * inv.value, inv.relative_error, relative=True)
+        else:
+            raise TypeError("Type must be either ErrorNumber, float or int")
 
     def __str__(self):
         return "[value={}; error={}; relative_error={}]".format(self.value, self.absolute_error, self.relative_error)
@@ -152,7 +270,7 @@ def tan(e_n):
     0.11394939273245491
     '''
     value = math.sin(e_n.value) / math.cos(e_n.value)
-    abs_error = abs((1 / math.cos(e_n.value)) * e_n.absolute_error)
+    abs_error = abs((1 / (math.cos(e_n.value)**2)) * e_n.absolute_error)
     return ErrorNumber(value, abs_error)
 
 
@@ -169,7 +287,7 @@ def cot(e_n):
     0.20858296429334883
     '''
     value = math.cos(e_n.value) / math.sin(e_n.value)
-    abs_error = abs((1 / math.sin(e_n.value)) * e_n.absolute_error)
+    abs_error = abs((1 / math.sin(e_n.value)**2) * e_n.absolute_error)
     return ErrorNumber(value, abs_error)
 
 
@@ -210,7 +328,7 @@ def expbase(e_n, base):
 
 def from_non_reproducible(lort):
     '''
-    creates an ErrorNumber from input data, calculating an average and an standard deviation
+    creates an ErrorNumber from input data, calculating an average and a standard deviation
     The absolute error that is returned is three times the standard deviation calculated
 
     The stdev is calculated using factor 1/ (n(n-1))
