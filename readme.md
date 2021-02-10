@@ -93,12 +93,12 @@ Het ErrorNumberFunctions bestand heeft een paar extra functies zoals sinus, tang
 
 Functie | Beschrijving
 --- | ---
-`ErrorNumberFunctions.sin(errornumber)` |neemt de sinus van een ErrorNumber*.
-`ErrorNumberFunctions.cos(errornumber)` | neemt de cosinus van een ErrorNumber*
-`ErrorNumberFunctions.tan(errornumber)` | neemt de tangens van een ErrorNumber*
-`ErrorNumberFunctions.cot(errornumber)` | neemt de cotangens van een ErrorNumber*
-`ErrorNumberFunctions.exp(errornumber)` | verheft e tot errornumber
-`ErrorNumberFunctions.exp(errornumber, base)` | verheft een base tot het errornumber
+`sin(errornumber)` |neemt de sinus van een ErrorNumber*.
+`cos(errornumber)` | neemt de cosinus van een ErrorNumber*
+`tan(errornumber)` | neemt de tangens van een ErrorNumber*
+`cot(errornumber)` | neemt de cotangens van een ErrorNumber*
+`exp(errornumber)` | verheft e tot errornumber
+`expbase(errornumber, base)` | verheft een base tot het errornumber
 
 *** *goniometrische formules verwachten steeds een argument in radialen*
 ## Over het import statement
